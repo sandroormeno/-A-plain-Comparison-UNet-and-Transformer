@@ -1,4 +1,7 @@
 ### A plain Comparison: UNet and Transformer
+
+![imagen](images/output-nvidia-mit-b3.png)
+
 #### Resumen
 
 La presente investigación muestra un marco base para hacer comparación de modelos orientados a resolver problemas de segmentación. Está motivado por una intuición que propone a un modelo de Transformer más rápido que una UNet, que es contra intuitivo por la cantidad de poder computacional que se requiere y es una diferencia en ambos modelos. 
