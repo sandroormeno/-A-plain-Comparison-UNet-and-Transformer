@@ -1,6 +1,9 @@
 ### A plain Comparison: UNet and Transformer
 #### Resumen
 
+La presente investigación muestra un marco base para hacer comparación de modelos orientados a resolver problemas de segmentación. Está motivado por una intuición que propone a un modelo de Transformer más rápido que una UNet, que es contra intuitivo por la cantidad de poder computacional que se requiere y es una diferencia en ambos modelos. 
+Los resultados se inscriben en un marco de decisiones que se argumentan a lo largo de la investigación que no pretenden ser una regla general; pero que sí se ajustan a este tipo de problemas de segmentación.
+
 #### Antecedentes
 
 Es común hacer este tipo de comparaciones, y lo más frecuente es comparar modelos de un mismo tipo. Las condiciones para este tipo de investigaciones es mucho más fácil, ya que se enfrentan características similares. Para el caso que les presento, los modelos son diferentes, así que requerirán de muchas iteraciones con diferentes parámetros y datos en diferentes calidades. Todo esto es necesario para determinar un nivel base en el que podamos establecer condiciones justas para ambos modelos.
@@ -41,6 +44,7 @@ En este punto, el argumento estaba orientado a establecer el máximo rendimiento
 
 Para definir la cantidad de épocas a entrenar, estaba claro que no serían iguales para ambos modelos; pero habría que definir una cantidad fija para cada uno. Decidí usar los modelos más pequeños y establecer un tiempo base para ambos. Después de varios entrenamientos pude establecer un tiempo mínimo de 20 a 22 minutos que correspondía a 50 épocas para la UNet y 9 para el Transformer. Esta cantidad de épocas se mantendría para el resto de entrenamientos. Este parámetro sería muy revelador; pero de ninguna manera define las mejores métricas, para el caso del Transformer es mucho menor y de la UNet podría ser hasta tres veces mayor en combinación de otros hiperparámetros. El lector debería considerar que el objetivo NO es encontrar los mejores valores de rendimiento. Si ese fuera el objetivo, debería prestar atención a estas aclaraciones y realizar las modificaciones respectivas.
 
+Otro de los aspectos definido, fue la omisión de las trasformaciones. Esto debería acelerar los resultados, desde el punto de vista de optimizar el proceso de comparación, esto quiere decir que los procesos de entrenamiento tomen los tiempos más reducidos. En este punto es importante indicar que para llegar a estos criterios se ha tenido que realizar varios entrenamientos que demuestren que, el uso de transformaciones adecuadas para este tipo de problema, no alteran los resultados con relación a las comparaciones. En todo caso, la presente investigación quiere definir un marco base para realizar comparaciones mas no un modelo óptimamente entrenado.
 
 ###
 ###
