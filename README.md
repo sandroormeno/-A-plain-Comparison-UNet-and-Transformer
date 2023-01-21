@@ -57,6 +57,28 @@ Para definir la cantidad de épocas a entrenar, estaba claro que no serían igua
 
 Otro de los aspectos definido, fue la omisión de las trasformaciones. Esto debería acelerar los resultados, desde el punto de vista de optimizar el proceso de comparación, esto quiere decir que los procesos de entrenamiento tomen los tiempos más reducidos. En este punto es importante indicar que para llegar a estos criterios se ha tenido que realizar varios entrenamientos que demuestren que, el uso de transformaciones adecuadas para este tipo de problema, no alteran los resultados con relación a las comparaciones. En todo caso, la presente investigación quiere definir un marco base para realizar comparaciones mas no un modelo óptimamente entrenado.
 
+Y en contra posición a lo dicho anterior mente, he añadido un transformador, uno no especialmente importante para este tipo de problemas. Pero después de contrastarlo con los habituales transformadores como son: flip, rotate, transpose, gridDistortion, gaussianBlur. No influían negativamente en los resultados; pero si en los tiempos de entrenamientos y en la cantidad de épocas necesarias para encontrar mejores resultados en competencia con la misma arquitectura (Unet), mas no, en términos comparativos, con la otra arquitectura (transformers).
+
+Además, es también importante la omisión del uso de normalización, que parece ser una omisión contra intuitiva. Pero luego del entrenamiento, resultó que implicaba un mayor tiempo de entrenamiento para obtener mejores métricas, para el caso de la UNet. En este punto debo dejar una interrogación que explique la razón de este comportamiento, el lector deberá investigar más sobre ello.
+
+En resumen, el uso de transformadores, deberán ser usados con el fin de encontrar mejores métricas desvinculadas de esta investigación. Son irrelevantes con relación a objetivos comparativos, que es nuestro caso.
+
+La métrica para evaluar nuestros modelos será intersection over union (iou), que es el cociente entre la intercepción de los resultados y el ground truth con la unión de los mismos. Esta métrica es muy habitual para este tipo de problemas de segmentación. 
+
+![imagen](images/iou.png)
+
+Para el desarrollo de esta investigación he usado el código del algoritmo prestado de Sensio; pero hay librerías que permiten implementarlas con solo la evocación. La idea general era entender cómo funcionaba el algoritmo en detrimento del tiempo, obviamente. 
+
+```python
+def IoU(pr, gt, th=0.5, eps=1e-7):
+    pr = torch.sigmoid(pr) > th
+    gt = gt > th
+    intersection = torch.sum(gt * pr, axis=(-2,-1))
+    union = torch.sum(gt, axis=(-2,-1)) + torch.sum(pr, axis=(-2,-1)) - intersection + eps
+    ious = (intersection + eps) / union
+    return torch.mean(ious).item()
+```
+
 ###
 ###
 ###
