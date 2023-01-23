@@ -81,6 +81,15 @@ def IoU(pr, gt, th=0.5, eps=1e-7):
 
 Otra de las decisiones que involucró agilizar el proceso de entrenamiento fue el uso de pytorch-lightning. Esto permitió acelerar el proceso en casi un 60%. Ciertamente esto depende de los modelos y datos; pero se ha convertido en el estándar en entornos de producción.
 
+### Los resultados
+
+En una primera mirada, es muy evidente que, los Transformers son más eficiente que la UNet; pero hay que considerar que No tienen la misma cantidad de parámetros, si bien no es una diferencia notoria se debe considerar que en los modelos más pequeños la UNet tiene una pequeña ventaja. 
+
+![imagen](images/comparative.png)
+
+En los modelos restantes, los transformers rebasan y mantienen una diferencia considerable.  Además, también hay que resaltar que los modelos basados en Transformers solo requieren un tercio de las épocas para estar por encima de los modelos basados en UNet. Este detalle es muy elocuente, podemos determinar que los Transformers obtienen los mismos resultados en un periodo similar de tiempo comparado a los modelos basados en UNet. Y luego requieren unas pocas épocas para encontrar mejores métricas.
+
+
 ###
 ###
 ###
