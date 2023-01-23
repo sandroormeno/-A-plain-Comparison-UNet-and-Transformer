@@ -79,6 +79,8 @@ def IoU(pr, gt, th=0.5, eps=1e-7):
     return torch.mean(ious).item()
 ```
 
+Otra de las decisiones que involucró agilizar el proceso de entrenamiento fue el uso de pytorch-lightning. Esto permitió acelerar el proceso en casi un 60%. Ciertamente esto depende de los modelos y datos; pero se ha convertido en el estándar en entornos de producción.
+
 ###
 ###
 ###
