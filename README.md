@@ -7,6 +7,8 @@
 La presente investigación muestra un marco base para hacer comparación de modelos orientados a resolver problemas de segmentación. Está motivado por una intuición que propone a un modelo de Transformer más rápido que una UNet, que es contra intuitivo por la cantidad de poder computacional que se requiere y es una diferencia en ambos modelos. 
 Los resultados se inscriben en un marco de decisiones que se argumentan a lo largo de la investigación que no pretenden ser una regla general; pero que sí se ajustan a este tipo de problemas de segmentación.
 
+Si bien en el transcurso de la argumentación para la investigación uso la generalidad de Transformer y Unet; Estas tienen nombre propio. El transformer usado es [SegFormer](https://github.com/NVlabs/SegFormer) lanzado en octubre del 2021. Y una arquitectura específica de [UNet](https://github.com/qubvel/segmentation_models.pytorch), constituida  por un Encoder  Resnet y  pre-entrenado con Imagenet.
+
 ### Antecedentes
 
 Es común hacer este tipo de comparaciones, y lo más frecuente es comparar modelos de un mismo tipo. Las condiciones para este tipo de investigaciones es mucho más fácil, ya que se enfrentan características similares. Para el caso que les presento, los modelos son diferentes, así que requerirán de muchas iteraciones con diferentes parámetros y datos en diferentes calidades. Todo esto es necesario para determinar un nivel base en el que podamos establecer condiciones justas para ambos modelos.
