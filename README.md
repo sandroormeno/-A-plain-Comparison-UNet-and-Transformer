@@ -4,10 +4,10 @@
 
 ### Resumen
 
-La presente investigación muestra un marco base para hacer comparación de modelos orientados a resolver problemas de segmentación. Está motivado por una intuición que propone a un modelo de Transformer más rápido que una UNet, que es contra intuitivo por la cantidad de poder computacional que se requiere y es una diferencia en ambos modelos. 
-Los resultados se inscriben en un marco de decisiones que se argumentan a lo largo de la investigación que no pretenden ser una regla general; pero que sí se ajustan a este tipo de problemas de segmentación.
+La presente investigación muestra un marco base para hacer comparación de modelos orientados a resolver problemas de segmentación. Está motivado por una intuición que propone a un modelo de __Transformer__ más rápido que una __UNet__. Esto resulta  ser contra intuitivo, por la cantidad de poder computacional que se requiere al entrenar un __Transformer__ y es una diferencia fundamental en ambos modelos. 
+Los resultados se inscriben en un marco de decisiones que se argumentan a lo largo del documento y  que no pretenden ser una regla general; pero que sí se ajustan a este tipo de problemas de segmentación.
 
-Si bien en el transcurso de la argumentación para la investigación uso la generalidad de Transformer y Unet; Estas tienen nombre propio. El transformer usado es [SegFormer](https://github.com/NVlabs/SegFormer) lanzado en octubre del 2021. Y una arquitectura específica de [UNet](https://github.com/qubvel/segmentation_models.pytorch), constituida  por un Encoder  Resnet y  pre-entrenado con Imagenet.
+Si bien en el transcurso de la argumentación para la investigación uso la generalidad de Transformer y Unet; Estas tienen nombre propio. El __Transformer__ usado es [SegFormer](https://github.com/NVlabs/SegFormer) lanzado en octubre del 2021. Y una arquitectura específica de [UNet](https://github.com/qubvel/segmentation_models.pytorch), constituida  por un Encoder  __Resnet__ y  pre-entrenado con __Imagenet__.
 
 ![imagen](images/segformer_architecture.png)
 
@@ -17,11 +17,11 @@ Si bien en el transcurso de la argumentación para la investigación uso la gene
 
 Es común hacer este tipo de comparaciones, y lo más frecuente es comparar modelos de un mismo tipo. Las condiciones para este tipo de investigaciones es mucho más fácil, ya que se enfrentan características similares. Para el caso que les presento, los modelos son diferentes, así que requerirán de muchas iteraciones con diferentes parámetros y datos en diferentes calidades. Todo esto es necesario para determinar un nivel base en el que podamos establecer condiciones justas para ambos modelos.
 
-En la presente investigación no explaya en la definición de estos conceptos básicos para establecer una comparación equilibrada; pero se mencionan algunos criterios a considerar que no pretenden ser la regla general, pero establece el marco que define los límites de la investigación.
+En la presente investigación no se explaya en la definición de estos conceptos básicos para establecer una comparación equilibrada; pero se mencionan algunos criterios a considerar que no pretenden ser la regla general, pero establece el marco que define los límites de la investigación.
 
-En principio el tiempo es un limitante. Habría que considerar, muy cuidadosamente, cuáles serían las variables relevantes que debía mantener para ser riguroso en los resultados y cuales podría omitir o manejar con un grado de libertad para reducir el tiempo de entrenamiento de los modelos. 
+En principio el tiempo es un limitante. Habría que considerar, muy cuidadosamente, cuáles serían las variables relevantes que debía mantener para ser riguroso en los resultados y cuales podría omitir o manejar, con un grado de libertad, para reducir el tiempo de entrenamiento de los modelos. 
 
-El entorno de trabajo también, es un factor importante. Para la investigación he usado Colab y Kaggle. La idea general es que los resultados sean fácilmente replicables, por cualquier persona, sin necesidad de un hardware privativo económicamente.  Ambos entornos tienen pequeñas diferencias; pero en general arrojan resultados similares.
+El entorno de trabajo también, es un factor importante. Para la investigación he usado __Colab__ y __Kaggle__. La idea general es que los resultados sean fácilmente replicables, por cualquier persona, sin necesidad de un hardware privativo económicamente.  Ambos entornos tienen pequeñas diferencias; pero en general arrojan resultados similares.
 
 ### Warning!
 
@@ -46,11 +46,11 @@ Todas las imágenes las he guardado en formato PNG. Así que no debe causar asom
 
 ### Los modelos
 
-Tenemos dos modelos diferentes: UNet y Transformer. Lo primero a destacar es que se llevan casi 5 años de diferencia. Las arquitecturas  de tipo Unet han sido diseñadas especialmente para desarrollar segmentación, mientras que, originalmente los Transformer estaban orientadas al desarrollo de NLP(Natural Language Processing).
+Tenemos dos modelos diferentes: __UNet__ y __Transformer__. Lo primero a destacar es que se llevan casi 5 años de diferencia. Las arquitecturas  de tipo Unet han sido diseñadas especialmente para desarrollar segmentación, mientras que, originalmente los __Transformer__ estaban orientadas al desarrollo de NLP(Natural Language Processing).
 
-La diferencia más significativa está orientada en la cantidad de cálculos y necesidad de poder computacional. Obviamente esto dependerá de la cantidad de parámetros que contenga el modelo; pero en general, a una similar cantidad de parámetros, los modelos basados en Transformers requieren mayor capacidad de cálculo. Esto es un problema que debería ser mencionado en el apartado antecedentes; pero requería una explicación más profunda. En este punto me remito a una explicación más adelante.
+La diferencia más significativa está orientada en la cantidad de cálculos y necesidad de poder computacional. Obviamente esto dependerá de la cantidad de parámetros que contenga el modelo; pero en general, a una similar cantidad de parámetros, los modelos basados en __Transformers__ requieren mayor capacidad de cálculo. Esto es un problema que debería ser mencionado en el apartado antecedentes; pero requería una explicación más profunda. En este punto me remito a una explicación más adelante.
 
-Los estudios recientes muestran que las potencialidades de los Transformers se orientan, también en otras tareas: clasificación, detección, segmentación. Las capacidades de los mecanismos de atención están proponiendo nuevos campos de uso que no fueron definidos en su diseño y que están siendo explotados por los desarrolladores.
+Los estudios recientes muestran que las potencialidades de los __Transformers__ se orientan, también en otras tareas: _clasificación_, _detección_, _segmentación_. Las capacidades de los mecanismos de atención están proponiendo nuevos campos de uso que no fueron definidos en su diseño y que están siendo explotados por los desarrolladores.
 
 |   Model   | Parámetros  |   Val_iou   |     Time    |
 |:-------------:|:---------------:|:---------------:|:---------------:|
@@ -63,25 +63,25 @@ Los estudios recientes muestran que las potencialidades de los Transformers se o
 
 ### Configuración de parámetros
 
-Un buen indicador del rendimiento de los modelos es el tiempo. Esto se puede resumir en la cantidad de tiempo que tarda cada modelo en completar una época (epoch). Completar una época implica alimentar con todos los datos al modelo. Había que definir la cantidad de datos que usaría para alimentar los modelos en cada paso (step). Esta cantidad de datos se denomina lote (batch). Como mencionamos, anteriormente, los modelos difieren en la cantidad de cálculos requeridos para procesar los datos, esto implica que la cantidad de datos se verá limitada por la capacidad de GPU a usar. Para este menester dispusimos usar Colab, que nos provee de un Tesla T4 de 16MB, ese sería nuestro límite de memoria. Los modelos de transformers más pequeños no tendrían problema; pero si los más grandes. Si bien, no usaríamos el modelo más elaborado para hacer las comparaciones, sería muy elocuente mostrar el potencial general del modelo, así que evaluar los datos con el modelo más grande nos daría el límite de tamaño de lote (en este caso 2). Este se mantendría para evaluar los modelos más pequeños. En el caso de la UNet, no tendríamos este problema. Así que usamos el máximo tamaño de lote posible (este sería 64).
+Un buen indicador del rendimiento de los modelos es el tiempo. Esto se puede resumir en la cantidad de tiempo que tarda cada modelo en completar una __época__ (epoch). Completar una época implica alimentar con todos los datos al modelo. Había que definir la cantidad de datos que usaría para alimentar los modelos en cada __paso__ (step). Esta cantidad de datos se denomina __lote__ (batch). Como mencionamos, anteriormente, los modelos difieren en la cantidad de cálculos requeridos para procesar los datos, esto implica que la cantidad de datos se verá limitada por la capacidad de __GPU__ a usar. Para este menester dispusimos usar __Colab__, que nos provee de un _Tesla T4_ de 16MB, ese sería nuestro límite de memoria. Los modelos de Transformers más pequeños no tendrían problema; pero si los más grandes. Si bien, no usaríamos el modelo más elaborado para hacer las comparaciones, sería muy elocuente mostrar el potencial general del modelo, así que evaluar los datos con el modelo más grande nos daría el límite de tamaño de lote (en este caso 2). Este se mantendría para evaluar los modelos más pequeños. En el caso de la __UNet__, no tendríamos este problema. Así que usamos el máximo tamaño de lote posible (este sería 64).
 
-En este punto, el argumento estaba orientado a establecer el máximo rendimiento en cada modelo. No sería justo usar un mismo lote para ambos modelos; pero sí mantener el mismo tamaño del lote para la misma arquitectura. Definir el lote en la Unet, no fue muy complicado. no era crítico para el GPU manejar esa cantidad de datos. Este criterio puede ser diferente si se requiere pre-procesar los datos originales. En nuestro caso, el pre-procesado se realizó con anterioridad e implicó un buen ahorro de cálculos, o dicho de otro modo, un inicio más ligero.
+En este punto, el argumento estaba orientado a establecer el máximo rendimiento en cada modelo. No sería justo usar un mismo lote para ambos modelos; pero sí mantener el mismo tamaño del lote para la misma arquitectura. Definir el lote en la __UNet__, no fue muy complicado. no era crítico para el _GPU_ manejar esa cantidad de datos. Este criterio puede ser diferente si se requiere pre-procesar los datos originales. En nuestro caso, el pre-procesado se realizó con anterioridad e implicó un buen ahorro de cálculos, o dicho de otro modo, un inicio más ligero.
 
-Para definir la cantidad de épocas a entrenar, estaba claro que no serían iguales para ambos modelos; pero habría que definir una cantidad fija para cada uno. Decidí usar los modelos más pequeños y establecer un tiempo base para ambos. Después de varios entrenamientos pude establecer un tiempo mínimo de 20 a 22 minutos que correspondía a 50 épocas para la UNet y 9 para el Transformer. Esta cantidad de épocas se mantendría para el resto de entrenamientos. Este parámetro sería muy revelador; pero de ninguna manera define las mejores métricas, para el caso del Transformer es mucho menor y de la UNet podría ser hasta tres veces mayor en combinación de otros hiperparámetros. El lector debería considerar que el objetivo NO es encontrar los mejores valores de rendimiento. Si ese fuera el objetivo, debería prestar atención a estas aclaraciones y realizar las modificaciones respectivas.
+Para definir la cantidad de épocas a entrenar, estaba claro que no serían iguales para ambos modelos; pero habría que definir una cantidad fija para cada uno. Decidí usar los modelos más pequeños y establecer un tiempo base para ambos. Después de varios entrenamientos pude establecer un tiempo mínimo de 20 a 22 minutos que correspondía a 50 épocas para la __UNet__ y 9 para el __Transformer__. Esta cantidad de épocas se mantendría para el resto de entrenamientos. Este parámetro sería muy revelador; pero de ninguna manera define las mejores métricas, para el caso del __Transformer__ es mucho menor y de la __UNet__ podría ser hasta tres veces mayor en combinación de otros _hiperparámetros_. El lector debería considerar que el objetivo NO es encontrar los mejores valores de rendimiento. Si ese fuera el objetivo, debería prestar atención a estas aclaraciones y realizar las modificaciones respectivas.
 
-Otro de los aspectos definido, fue la omisión de las trasformaciones. Esto debería acelerar los resultados, desde el punto de vista de optimizar el proceso de comparación, esto quiere decir que los procesos de entrenamiento tomen los tiempos más reducidos. En este punto es importante indicar que para llegar a estos criterios se ha tenido que realizar varios entrenamientos que demuestren que, el uso de transformaciones adecuadas para este tipo de problema, no alteran los resultados con relación a las comparaciones. En todo caso, la presente investigación quiere definir un marco base para realizar comparaciones mas no un modelo óptimamente entrenado.
+Otro de los aspectos definido, fue la omisión de las __transformaciones__. Esto debería acelerar los resultados, desde el punto de vista de optimizar el proceso de comparación, esto quiere decir que los procesos de entrenamiento tomen los tiempos más reducidos. En este punto es importante indicar que para llegar a estos criterios se ha tenido que realizar varios entrenamientos que demuestren que, el uso de __transformaciones__ adecuadas para este tipo de problema, no alteran los resultados con relación a las comparaciones. En todo caso, la presente investigación quiere definir un marco base para realizar comparaciones mas no un modelo óptimamente entrenado.
 
-Y en contra posición a lo dicho anterior mente, he añadido un transformador, uno no especialmente importante para este tipo de problemas. Pero después de contrastarlo con los habituales transformadores como son: flip, rotate, transpose, gridDistortion, gaussianBlur. No influían negativamente en los resultados; pero si en los tiempos de entrenamientos y en la cantidad de épocas necesarias para encontrar mejores resultados en competencia con la misma arquitectura (Unet), mas no, en términos comparativos, con la otra arquitectura (transformers).
+Y en contra posición a lo dicho anterior mente, he añadido un __transformador__, uno no especialmente importante para este tipo de problemas. Pero después de contrastarlo con los habituales __transformadores__ como son: _flip_, _rotate_, _transpose_, _gridDistortion_, _gaussianBlur_. No influían negativamente en los resultados; pero si en los tiempos de entrenamientos y en la cantidad de épocas necesarias para encontrar mejores resultados en competencia con la misma arquitectura (Unet), mas no, en términos comparativos, con la otra arquitectura (transformers).
 
-Además, es también importante la omisión del uso de normalización, que parece ser una omisión contra intuitiva. Pero luego del entrenamiento, resultó que implicaba un mayor tiempo de entrenamiento para obtener mejores métricas, para el caso de la UNet. En este punto debo dejar una interrogación que explique la razón de este comportamiento, el lector deberá investigar más sobre ello.
+Además, es también importante la omisión del uso de __normalización__, que parece ser una omisión contra intuitiva. Pero luego del entrenamiento, resultó que implicaba un mayor tiempo de entrenamiento para obtener mejores métricas, para el caso de la __UNet__. En este punto debo dejar una interrogación que explique la razón de este comportamiento, el lector deberá investigar más sobre ello.
 
-En resumen, el uso de transformadores, deberán ser usados con el fin de encontrar mejores métricas desvinculadas de esta investigación. Son irrelevantes con relación a objetivos comparativos, que es nuestro caso.
+En resumen, el uso de __transformadores__, deberán ser usados con el fin de encontrar mejores métricas desvinculadas de esta investigación. Son irrelevantes con relación a objetivos comparativos, que es nuestro caso.
 
-La métrica para evaluar nuestros modelos será intersection over union (iou), que es el cociente entre la intercepción de los resultados y el ground truth con la unión de los mismos. Esta métrica es muy habitual para este tipo de problemas de segmentación. 
+La __métrica__ para evaluar nuestros modelos será __intersection over union__ (iou), que es el cociente entre la intercepción de los resultados y el ground truth con la unión de los mismos. Esta __métrica__ es muy habitual para este tipo de problemas de segmentación. 
 
 ![imagen](images/iou.png)
 
-Para el desarrollo de esta investigación he usado el código del algoritmo prestado de Sensio; pero hay librerías que permiten implementarlas con solo la evocación. La idea general era entender cómo funcionaba el algoritmo en detrimento del tiempo, obviamente. 
+Para el desarrollo de esta investigación he usado el código del algoritmo prestado de __Sensio__; pero hay librerías que permiten implementarlas con solo la evocación. La idea general era entender cómo funcionaba el algoritmo en detrimento del tiempo, obviamente. 
 
 ```python
 def IoU(pr, gt, th=0.5, eps=1e-7):
@@ -93,16 +93,22 @@ def IoU(pr, gt, th=0.5, eps=1e-7):
     return torch.mean(ious).item()
 ```
 
-Otra de las decisiones que involucró agilizar el proceso de entrenamiento fue el uso de pytorch-lightning. Esto permitió acelerar el proceso en casi un 60%. Ciertamente esto depende de los modelos y datos; pero se ha convertido en el estándar en entornos de producción.
+Otra de las decisiones que involucró agilizar el proceso de entrenamiento fue el uso de __pytorch-lightning__. Esto permitió acelerar el proceso en casi un __60%__. Ciertamente esto depende de los modelos y datos; pero se ha convertido en el estándar en entornos de producción.
 
 ### Los resultados
 
-En una primera mirada, es muy evidente que, los Transformers son más eficiente que la UNet; pero hay que considerar que No tienen la misma cantidad de parámetros, si bien no es una diferencia notoria se debe considerar que en los modelos más pequeños la UNet tiene una pequeña ventaja. 
+En una primera mirada, es muy evidente que, los __Transformers__ son más eficientes que la __UNet__; pero hay que considerar que No tienen la misma cantidad de parámetros, si bien no es una diferencia notoria se debe considerar que en los modelos más pequeños la UNet tiene una pequeña ventaja. 
 
 ![imagen](images/comparative.png)
 
-En los modelos restantes, los transformers rebasan y mantienen una diferencia considerable.  Además, también hay que resaltar que los modelos basados en Transformers solo requieren un tercio de las épocas para estar por encima de los modelos basados en UNet. Este detalle es muy elocuente, podemos determinar que los Transformers obtienen los mismos resultados en un periodo similar de tiempo comparado a los modelos basados en UNet. Y luego requieren unas pocas épocas para encontrar mejores métricas.
+En los modelos restantes, los transformers rebasan y mantienen una diferencia considerable.  Además, también hay que resaltar que los modelos basados en __Transformers__ solo requieren un tercio de las épocas para estar por encima de los modelos basados en __UNet__. Este detalle es muy elocuente, podemos determinar que los Transformers obtienen los mismos resultados en un periodo similar de tiempo comparado a los modelos basados en __UNet__. Y luego requieren unas pocas épocas para encontrar mejores métricas.
 
+### Conclusiones
+La conclusión más relevante es que estos procedimientos deben reevaluarse para otros modelos y conjunto de datos. El estudio no pretende establecer una regla general. El siguiente paso sería usar otros conjuntos de datos.
+
+El modelo basado en __Transformers__ es el que mejores resultados ha mostrado; pero eso no quiere decir que el modelo de UNet esté descartado para _segmentación_. Es un hecho que es mucho más rápido que el Transformer y esto lo hace particularmente efectivo en la búsqueda de mejores _hiperparámetros_ para mejorar el rendimiento.
+
+No es claro que el modelo basado en __Transformers__ rinda de igual manera con otros conjuntos de datos u otros problemas de segmentación. 
 
 ###
 ###
