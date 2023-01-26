@@ -52,18 +52,23 @@ La diferencia más significativa está orientada en la cantidad de cálculos y n
 
 Los estudios recientes muestran que las potencialidades de los __Transformers__ se orientan, también en otras tareas: _clasificación_, _detección_, _segmentación_. Las capacidades de los mecanismos de atención están proponiendo nuevos campos de uso que no fueron definidos en su diseño y que están siendo explotados por los desarrolladores.
 
-|   Model   | Parámetros  |   Val_iou   |     Time    |
+|   Model   | Parámetros  |   Val_iou   |     Time (min)    |
 |:-------------:|:---------------:|:---------------:|:---------------:|
-| nvidia/mit-b1 | 13.7 M          | 0.827           | 24:52 mim       |
-| nvidia/mit-b2 | 27.3 M          | 0.856           | 43:15 mim       |
-| nvidia/mit-b3 | 47.2 M          | 0.890           | 61:00 mim       |
-| resnet18      | 14.3 M          | 0.831           | 19:49 mim       |
-| resnet34      | 24.4 M          | 0.830           | 21:35 mim       |
-| resnet101     | 51.5 M          | 0.843           | 32:53 mim       |
+| nvidia/mit-b1 | 13.7 M          | 0.827           | 24:52        |
+| nvidia/mit-b2 | 27.3 M          | 0.856           | 43:15        |
+| nvidia/mit-b3 | 47.2 M          | 0.890           | 61:00        |
+| resnet18      | 14.3 M          | 0.831           | 19:49        |
+| resnet34      | 24.4 M          | 0.830           | 21:35        |
+| resnet101     | 51.5 M          | 0.843           | 32:53        |
 
 ### Configuración de parámetros
 
 Un buen indicador del rendimiento de los modelos es el tiempo. Esto se puede resumir en la cantidad de tiempo que tarda cada modelo en completar una __época__ (epoch). Completar una época implica alimentar con todos los datos al modelo. Había que definir la cantidad de datos que usaría para alimentar los modelos en cada __paso__ (step). Esta cantidad de datos se denomina __lote__ (batch). Como mencionamos, anteriormente, los modelos difieren en la cantidad de cálculos requeridos para procesar los datos, esto implica que la cantidad de datos se verá limitada por la capacidad de __GPU__ a usar. Para este menester dispusimos usar __Colab__, que nos provee de un _Tesla T4_ de 16MB, ese sería nuestro límite de memoria. Los modelos de Transformers más pequeños no tendrían problema; pero si los más grandes. Si bien, no usaríamos el modelo más elaborado para hacer las comparaciones, sería muy elocuente mostrar el potencial general del modelo, así que evaluar los datos con el modelo más grande nos daría el límite de tamaño de lote (en este caso 2). Este se mantendría para evaluar los modelos más pequeños. En el caso de la __UNet__, no tendríamos este problema. Así que usamos el máximo tamaño de lote posible (este sería 64).
+
+|   Model   | Parámetros  |   Val_iou   |  Epoch  |  Batch |  Time (min) |
+|:---------:|:-----------:|:-----------:|:-------:|:------:|:------:|
+| resnet101 | 14.3 M      | 0.843       |    50   |   64   | 32:53  |
+| nvidia/mit-b1 | 13.7 M  | 0.827       |    9    |   2    | 32:53  |
 
 En este punto, el argumento estaba orientado a establecer el máximo rendimiento en cada modelo. No sería justo usar un mismo lote para ambos modelos; pero sí mantener el mismo tamaño del lote para la misma arquitectura. Definir el lote en la __UNet__, no fue muy complicado. no era crítico para el _GPU_ manejar esa cantidad de datos. Este criterio puede ser diferente si se requiere pre-procesar los datos originales. En nuestro caso, el pre-procesado se realizó con anterioridad e implicó un buen ahorro de cálculos, o dicho de otro modo, un inicio más ligero.
 
