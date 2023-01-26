@@ -67,7 +67,7 @@ Un buen indicador del rendimiento de los modelos es el tiempo. Esto se puede res
 
 |   Model   | Parámetros  |   Val_iou   |  Epoch  |  Batch |  Time (min) |
 |:---------:|:-----------:|:-----------:|:-------:|:------:|:------:|
-| resnet101 | 14.3 M      | 0.843       |    50   |   64   | 32:53  |
+| resnet101 | 14.3 M      | 0.831       |    50   |   64   | 32:53  |
 | nvidia/mit-b1 | 13.7 M  | 0.827       |    9    |   2    | 32:53  |
 
 En este punto, el argumento estaba orientado a establecer el máximo rendimiento en cada modelo. No sería justo usar un mismo lote para ambos modelos; pero sí mantener el mismo tamaño del lote para la misma arquitectura. Definir el lote en la __UNet__, no fue muy complicado. no era crítico para el _GPU_ manejar esa cantidad de datos. Este criterio puede ser diferente si se requiere pre-procesar los datos originales. En nuestro caso, el pre-procesado se realizó con anterioridad e implicó un buen ahorro de cálculos, o dicho de otro modo, un inicio más ligero.
